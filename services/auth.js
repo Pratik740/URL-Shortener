@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
-const SECRET = "Please_Don't_Get_Disclosed" 
+require('dotenv').config(); // Load environment variables
+const secret = process.env.JWT_SECRET; 
 
 function setUser (user){
     const payload = {
@@ -7,14 +8,14 @@ function setUser (user){
         email: user.email,
         role: user.role
     }
-    return jwt.sign(payload,SECRET);
+    return jwt.sign(payload,secret);
 }
 // We haven't passed whole user object cauze user object (created by mongoose) contains
 // much irrelevant data that will just increase size of token. 
 
 function getUser(token){
     try{
-        const decoded = jwt.verify(token,SECRET);
+        const decoded = jwt.verify(token,secret);
         return decoded; // If valid returns the payload.
     }
     catch(err){
