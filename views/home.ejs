@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body>
+    <h1> URL Shortener</h1>    
+    <div>
+        <form method="POST" action="/url">
+            <label> Enter your Original URL</label>
+            <input type="text" name="url" placeholder="example.com">
+            <button type="submit">Generate</button>
+        </form>
+        <% if(id) { %>
+            <p> Url Generated : <a href="http://localhost:<%= port%>/url/<%= id %>"  target="_blank" rel="noopener noreferrer"> http://localhost:<%= port %>/url/<%= id %></a> </p>
+        <% } %> 
+        <br>
+        
+        <% if(urls){ %>
+            <table>
+                <thead>
+                    <th>S. No</th>
+                    <%if(admin) {%>
+                        <td> CreatedBy </td> 
+                    <%} %>
+                    <th>Redirect Url</th>
+                    <th>ShortId</th>
+                    <th>Clicks</th>
+                    
+                </thead>
+                <tbody>
+                    <% urls.forEach((url,index) => {%>
+                        <tr>
+                            <td> <%= index+1 %> </td>
+                            <%if(admin) {%>
+                                <td> <%=url.createdBy%> </td> 
+                            <%} %>
+                            <td> <%= url.redirectUrl %> </td>
+                            <td> <a href="http://localhost:8000/url/<%= url.shortId %>"  target="_blank" rel="noopener noreferrer"> http://localhost:8000%>/url/<%= url.shortId %></a></td>
+                            <td> <%= url.visitHistory.length %></td>   
+                            
+                        </tr>                
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } %>
+        
+        
+    </div>
+</body>
+</html>
